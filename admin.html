@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Angol Flies · Administrar</title>
+<link rel="icon" href="img/logo.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#fbfaf0; --surface:#eef0e2; --fg:#1d2a22; --muted:#56655b;
+  --accent:#c65a1e; --deep:#1c4a2b; --on-deep:#f4f2e4; --line:#d3d7c4;
+  --ok:#2f7a3f; --err:#b3261e;
+  --display:"Young Serif", Georgia, serif; --body:"Figtree", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#131a15; --surface:#1d2820; --fg:#e7ebe0; --muted:#9aa89d;
+  --accent:#e57a3c; --deep:#2b5a3a; --on-deep:#e7ebe0; --line:#2e3b31; --ok:#6cc27f; --err:#f2827a; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1rem/1.5 var(--body)}
+.wrap{max-width:760px;margin:0 auto;padding:24px 16px 80px}
+h1,h2{font-family:var(--display);font-weight:400;margin:0}
+h1{font-size:1.8rem}
+h2{font-size:1.3rem;margin-bottom:12px}
+[hidden]{display:none!important}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.top a{color:var(--accent);font-weight:700}
+.box{background:var(--surface);border-radius:10px;padding:18px;margin-bottom:20px}
+label{display:grid;gap:4px;font-weight:500;font-size:.9rem}
+input,select{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);width:100%}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.check{display:flex;align-items:center;gap:8px;font-weight:500}
+.check input{width:auto}
+.hint{font-size:.85rem;color:var(--muted);margin:8px 0 0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+button{font:inherit;font-weight:700;padding:10px 18px;border-radius:999px;border:2px solid var(--accent);background:transparent;color:var(--fg);cursor:pointer}
+button.solid{background:var(--accent);color:#fff}
+button.danger{border-color:var(--err);color:var(--err)}
+button:disabled{opacity:.5;cursor:wait}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.status{padding:10px 14px;border-radius:8px;margin-bottom:16px;font-weight:500;background:var(--surface)}
+.status.ok{color:var(--ok)} .status.err{color:var(--err)}
+.preview{width:140px;aspect-ratio:4/3;border-radius:8px;object-fit:cover;background:var(--bg);border:1px dashed var(--line)}
+.list{display:grid;gap:8px}
+.item{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px}
+.item img{width:64px;height:48px;object-fit:cover;border-radius:4px;background:var(--surface)}
+.item b{display:block;line-height:1.25}
+.item span{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.item button{padding:6px 14px;font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>Administrar moscas</h1>
+    <a href="./" target="_blank" rel="noopener">Ver página →</a>
+  </div>
+
+  <div class="status" id="status" hidden></div>
+
+  <!-- Conexión -->
+  <div class="box" id="connBox">
+    <h2>Conectar con GitHub</h2>
+    <div class="fields">
+      <label for="owner">Usuario de GitHub<input id="owner" autocomplete="off" placeholder="ej: rodrigobriones"></label>
+      <label for="repo">Repositorio<input id="repo" autocomplete="off" placeholder="ej: angol-flies"></label>
+    </div>
+    <label for="token" style="margin-top:12px">Token de acceso<input id="token" type="password" autocomplete="off" placeholder="github_pat_…"></label>
+    <p class="hint">El token se guarda solo en este navegador. Créalo en GitHub con permiso de lectura y escritura de "Contents" únicamente para este repositorio.</p>
+    <div class="actions"><button class="solid" id="connect" type="button">Conectar</button></div>
+  </div>
+
+  <div id="panel" hidden>
+    <!-- Formulario -->
+    <div class="box">
+      <h2 id="formTitle">Agregar mosca</h2>
+      <div class="fields">
+        <label for="f-nombre">Nombre<input id="f-nombre" placeholder="ej: Seca gris cuerpo naranja"></label>
+        <label for="f-cat">Tipo<select id="f-cat"></select></label>
+        <label for="f-precio">Precio por unidad (CLP)<input id="f-precio" type="number" min="0" step="50" inputmode="numeric" placeholder="vacío = Consultar"></label>
+        <label for="f-tallas">Tallas<input id="f-tallas" placeholder="ej: #12 · #14"></label>
+      </div>
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:14px">
+        <img class="preview" id="f-prev" alt="">
+        <label for="f-foto">Foto<input id="f-foto" type="file" accept="image/*"></label>
+      </div>
+      <label class="check" style="margin-top:14px"><input id="f-disp" type="checkbox" checked> Disponible (si la desmarcas aparece como agotada)</label>
+      <div class="actions">
+        <button class="solid" id="save" type="button">Guardar y publicar</button>
+        <button id="cancel" type="button" hidden>Cancelar edición</button>
+      </div>
+      <p class="hint">Después de guardar, la página pública se actualiza en 1 a 2 minutos.</p>
+    </div>
+
+    <!-- Lista -->
+    <div class="box">
+      <h2>Moscas publicadas (<span id="count">0</span>)</h2>
+      <div class="list" id="list"></div>
+    </div>
+
+    <div class="actions"><button id="logout" type="button">Desconectar este navegador</button></div>
+  </div>
+</div>
+
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const PATH='data/moscas.json';
+let cfg={},data=null,sha=null,editId=null,newPhoto=null,confirmDel=null;
+const fmt=n=>new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(n);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const slug=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'mosca';
+
+function status(msg,kind){const s=$('status');s.textContent=msg;s.className='status '+(kind||'');s.hidden=!msg}
+function store(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}
+function read(k){try{return localStorage.getItem(k)||''}catch(e){return ''}}
+
+// base64 <-> UTF-8
+function b64enc(str){const b=new TextEncoder().encode(str);let s='';for(let i=0;i<b.length;i+=0x8000)s+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(s)}
+function b64dec(b64){const bin=atob(b64.replace(/\n/g,''));return new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0)))}
+
+async function gh(path,opts={}){
+  const r=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`,{
+    ...opts,headers:{Authorization:'Bearer '+cfg.token,Accept:'application/vnd.github+json',...(opts.headers||{})}});
+  if(!r.ok){const t=await r.json().catch(()=>({}));const e=new Error(t.message||('Error '+r.status));e.status=r.status;throw e}
+  return r.json();
+}
+function explain(e){
+  if(e.status===401)return 'GitHub rechazó el token. Revisa que esté bien copiado y no haya vencido.';
+  if(e.status===404)return 'No encontré el repositorio o el archivo data/moscas.json. Revisa usuario y nombre del repositorio.';
+  if(e.status===403)return 'El token no tiene permiso de escritura. Dale permiso "Contents: Read and write".';
+  if(e.status===409)return 'El catálogo cambió desde otro lugar. Recarga esta página y vuelve a intentarlo.';
+  return 'No se pudo conectar con GitHub: '+e.message;
+}
+
+async function load(){
+  const f=await gh(PATH+'?t='+Date.now());
+  sha=f.sha;data=JSON.parse(b64dec(f.content));
+  $('f-cat').innerHTML=data.categorias.map(c=>`<option value="${esc(c.id)}">${esc(c.nombre)}</option>`).join('');
+  renderList();
+}
+async function saveData(msg){
+  const r=await gh(PATH,{method:'PUT',body:JSON.stringify({message:msg,content:b64enc(JSON.stringify(data,null,2)+'\n'),sha})});
+  sha=r.content.sha;
+}
+
+function renderList(){
+  $('count').textContent=data.moscas.length;
+  const cat=id=>(data.categorias.find(c=>c.id===id)||{}).nombre||id;
+  $('list').innerHTML=data.moscas.map(m=>`<div class="item">
+    <img src="${esc(m._preview||m.foto)}" alt="">
+    <div><b>${esc(m.nombre)}</b><span>${esc(cat(m.categoria))} · ${m.precio?fmt(m.precio):'Consultar'}${m.disponible===false?' · Agotada':''}</span></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:end">
+      <button type="button" data-edit="${esc(m.id)}">Editar</button>
+      <button type="button" class="danger" data-del="${esc(m.id)}">${confirmDel===m.id?'¿Seguro?':'Borrar'}</button>
+    </div></div>`).join('');
+}
+
+function resetForm(){
+  editId=null;newPhoto=null;
+  ['f-nombre','f-precio','f-tallas','f-foto'].forEach(id=>$(id).value='');
+  $('f-disp').checked=true;$('f-prev').removeAttribute('src');
+  $('formTitle').textContent='Agregar mosca';$('cancel').hidden=true;
+}
+
+// Reduce la foto a 1400 px y la pasa a JPG
+$('f-foto').addEventListener('change',async e=>{
+  const file=e.target.files[0];if(!file)return;
+  const img=await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=URL.createObjectURL(file)});
+  const k=Math.min(1,1400/Math.max(img.width,img.height));
+  const c=document.createElement('canvas');c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+  c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+  newPhoto=c.toDataURL('image/jpeg',.82);$('f-prev').src=newPhoto;
+});
+
+$('save').addEventListener('click',async()=>{
+  const nombre=$('f-nombre').value.trim();
+  if(!nombre){status('Escribe el nombre de la mosca antes de guardar.','err');$('f-nombre').focus();return}
+  if(!editId&&!newPhoto){status('Agrega una foto de la mosca antes de guardar.','err');return}
+  const btn=$('save');btn.disabled=true;status('Guardando en GitHub…');
+  try{
+    const precio=$('f-precio').value?Math.round(+$('f-precio').value):null;
+    let m=editId?data.moscas.find(x=>x.id===editId):null;
+    const id=m?m.id:slug(nombre)+'-'+Date.now().toString(36);
+    let foto=m?m.foto:null;
+    if(newPhoto){
+      foto=`img/${id}-${Date.now().toString(36)}.jpg`;
+      await gh(foto,{method:'PUT',body:JSON.stringify({message:'Foto: '+nombre,content:newPhoto.split(',')[1]})});
+    }
+    const datos={id,nombre,categoria:$('f-cat').value,precio,tallas:$('f-tallas').value.trim(),foto,disponible:$('f-disp').checked};
+    if(m)Object.assign(m,datos);else data.moscas.unshift(datos);
+    await saveData((m?'Actualiza: ':'Agrega: ')+nombre);
+    const target=data.moscas.find(x=>x.id===id);
+    if(newPhoto)Object.defineProperty(target,'_preview',{value:newPhoto,enumerable:false,configurable:true});
+    resetForm();renderList();status('Guardado. La página se actualiza en 1 a 2 minutos.','ok');
+  }catch(e){status(explain(e),'err')}
+  btn.disabled=false;
+});
+$('cancel').addEventListener('click',()=>{resetForm();status('')});
+
+$('list').addEventListener('click',async e=>{
+  const ed=e.target.dataset.edit,del=e.target.dataset.del;
+  if(ed){const m=data.moscas.find(x=>x.id===ed);editId=ed;newPhoto=null;
+    $('f-nombre').value=m.nombre;$('f-cat').value=m.categoria;$('f-precio').value=m.precio??'';$('f-tallas').value=m.tallas||'';
+    $('f-disp').checked=m.disponible!==false;$('f-prev').src=m._preview||m.foto;$('f-foto').value='';
+    $('formTitle').textContent='Editar: '+m.nombre;$('cancel').hidden=false;scrollTo({top:0,behavior:'smooth'});}
+  if(del){
+    if(confirmDel!==del){confirmDel=del;renderList();return}
+    confirmDel=null;const m=data.moscas.find(x=>x.id===del);
+    status('Borrando…');
+    try{data.moscas=data.moscas.filter(x=>x.id!==del);await saveData('Quita: '+m.nombre);renderList();status('Mosca borrada.','ok')}
+    catch(err){data.moscas.push(m);renderList();status(explain(err),'err')}
+  }
+});
+
+async function connect(){
+  cfg={owner:$('owner').value.trim(),repo:$('repo').value.trim(),token:$('token').value.trim()};
+  if(!cfg.owner||!cfg.repo||!cfg.token){status('Completa usuario, repositorio y token.','err');return}
+  status('Conectando…');
+  try{await load();store('af-owner',cfg.owner);store('af-repo',cfg.repo);store('af-token',cfg.token);
+    $('connBox').hidden=true;$('panel').hidden=false;status('')}
+  catch(e){status(explain(e),'err')}
+}
+$('connect').addEventListener('click',connect);
+$('logout').addEventListener('click',()=>{['af-owner','af-repo','af-token'].forEach(k=>store(k,null));location.reload()});
+
+// Autocompletar usuario y repo si la página está en usuario.github.io/repo
+const h=location.hostname.match(/^([^.]+)\.github\.io$/);
+$('owner').value=read('af-owner')||(h?h[1]:'');
+$('repo').value=read('af-repo')||(h?location.pathname.split('/')[1]||'':'');
+$('token').value=read('af-token');
+if($('owner').value&&$('repo').value&&$('token').value)connect();
+})();
+</script>
+</body>
+</html>

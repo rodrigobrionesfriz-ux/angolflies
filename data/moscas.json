@@ -1,0 +1,23 @@
+{
+  "categorias": [
+    { "id": "secas", "nombre": "Secas", "descripcion": "Flotan en superficie e imitan insectos adultos. Para eclosiones de primavera y verano." },
+    { "id": "ninfas", "nombre": "Ninfas", "descripcion": "Con cabeza de bronce o cobre para que bajen rápido. Las más efectivas buena parte de la temporada." },
+    { "id": "emergentes", "nombre": "Emergentes", "descripcion": "Imitan el insecto saliendo de la ninfa, justo bajo la superficie. Clave cuando la trucha come en la película del agua." },
+    { "id": "streamers", "nombre": "Streamers", "descripcion": "Imitan alevines y peces pequeños. Para truchas grandes en pozones y aguas altas." }
+  ],
+  "moscas": [
+    { "id": "seca-gris-naranja", "nombre": "Seca gris cuerpo naranja", "categoria": "secas", "precio": null, "tallas": "#12 · #14", "foto": "img/mosca-11.jpg", "disponible": true },
+    { "id": "seca-amarilla", "nombre": "Seca cuerpo amarillo", "categoria": "secas", "precio": null, "tallas": "#12 · #14", "foto": "img/mosca-02.jpg", "disponible": true },
+    { "id": "seca-parda", "nombre": "Seca parda", "categoria": "secas", "precio": null, "tallas": "#12 · #14 · #16", "foto": "img/mosca-01.jpg", "disponible": true },
+    { "id": "seca-foam-naranja", "nombre": "Seca de foam cola naranja", "categoria": "secas", "precio": null, "tallas": "#10 · #12", "foto": "img/mosca-05.jpg", "disponible": true },
+    { "id": "seca-palmer-blanca", "nombre": "Seca palmer blanca", "categoria": "secas", "precio": null, "tallas": "#12 · #14", "foto": "img/mosca-07.jpg", "disponible": true },
+    { "id": "seca-alas-malla", "nombre": "Seca con alas de malla", "categoria": "secas", "precio": null, "tallas": "#12 · #14", "foto": "img/mosca-08.jpg", "disponible": true },
+    { "id": "ninfa-jig-colores", "nombre": "Ninfa jig de colores", "categoria": "ninfas", "precio": null, "tallas": "#12 · #14 · #16", "foto": "img/mosca-13.jpg", "disponible": true },
+    { "id": "ninfa-roja", "nombre": "Ninfa roja cabeza dorada", "categoria": "ninfas", "precio": null, "tallas": "#12 · #14 · #16", "foto": "img/mosca-12.jpg", "disponible": true },
+    { "id": "ninfa-jig-negra", "nombre": "Ninfa jig negra cabeza cobre", "categoria": "ninfas", "precio": null, "tallas": "#12 · #14", "foto": "img/mosca-14.jpg", "disponible": true },
+    { "id": "ninfa-alas-blancas", "nombre": "Ninfa alas blancas cabeza cobre", "categoria": "ninfas", "precio": null, "tallas": "#10 · #12 · #14", "foto": "img/mosca-04.jpg", "disponible": true },
+    { "id": "ninfa-tornasol", "nombre": "Ninfa tornasol cabeza dorada", "categoria": "ninfas", "precio": null, "tallas": "#12 · #14", "foto": "img/mosca-03.jpg", "disponible": true },
+    { "id": "emergente-negra-roja", "nombre": "Emergente negra cola roja", "categoria": "emergentes", "precio": null, "tallas": "#12 · #14", "foto": "img/mosca-09.jpg", "disponible": true },
+    { "id": "streamer-alevin", "nombre": "Streamer alevín", "categoria": "streamers", "precio": null, "tallas": "#6 · #8", "foto": "img/mosca-10.jpg", "disponible": true }
+  ]
+}

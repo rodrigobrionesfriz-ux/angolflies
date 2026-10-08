@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Angol Flies Araucanía</title>
+<meta name="description" content="Moscas para pesca atadas a mano en Angol, Araucanía. Secas, ninfas, emergentes y streamers a pedido.">
+<link rel="icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;700&display=swap">
+<style>
+/* Layout: ribera. Portada con logo y foto, catálogo filtrable por tipo, contacto al cierre. */
+:root{
+  --bg:#fbfaf0; --surface:#eef0e2; --fg:#1d2a22; --muted:#56655b;
+  --accent:#c65a1e; --deep:#1c4a2b; --on-deep:#f4f2e4; --line:#d3d7c4; --logo-bg:#fefdef;
+  --display:"Young Serif", Georgia, serif;
+  --body:"Figtree", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#131a15; --surface:#1d2820; --fg:#e7ebe0; --muted:#9aa89d;
+  --accent:#e57a3c; --deep:#0f2617; --on-deep:#e7ebe0; --line:#2e3b31; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131a15; --surface:#1d2820; --fg:#e7ebe0; --muted:#9aa89d;
+  --accent:#e57a3c; --deep:#0f2617; --on-deep:#e7ebe0; --line:#2e3b31; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1rem/1.6 var(--body)}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+a{color:inherit}
+img{display:block;max-width:100%}
+[hidden]{display:none!important}
+.eyebrow{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+
+/* portada */
+.hero{background:var(--deep);color:var(--on-deep);position:relative;overflow:hidden}
+.hero .wrap{padding-block:56px;display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;position:relative;z-index:1}
+.hero-text{display:grid;gap:20px;min-width:0}
+.logo{background:var(--logo-bg);border-radius:14px;padding:10px 14px;width:min(220px,60vw);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.logo img{width:100%;height:auto}
+.hero h1{font-size:clamp(2.5rem,7vw,4.8rem);line-height:1}
+.hero h1 span{color:var(--accent)}
+.hero p{max-width:34rem;font-size:1.1rem;opacity:.85;margin:0}
+.hero-photo{border-radius:10px;overflow:hidden;aspect-ratio:4/5;max-height:560px;justify-self:end;width:100%;max-width:400px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 60%}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.3}
+@media (max-width:720px){.hero .wrap{grid-template-columns:1fr;padding-block:44px}.hero-photo{justify-self:stretch;max-width:none;aspect-ratio:4/3}}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:12px 20px;border-radius:999px;font-weight:700;text-decoration:none;border:2px solid var(--accent)}
+.btn.solid{background:var(--accent);color:#fff}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+section{padding-block:64px}
+.head{display:grid;gap:8px;margin-bottom:24px;max-width:40rem}
+.head h2{font-size:clamp(1.8rem,4.5vw,2.6rem)}
+.head p{color:var(--muted);margin:0}
+
+/* filtros */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chips button{font:inherit;font-weight:500;border:1px solid var(--line);background:var(--bg);color:var(--fg);padding:7px 14px;border-radius:999px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--deep);color:var(--on-deep);border-color:var(--deep)}
+.cat-desc{color:var(--muted);margin:0 0 24px;min-height:1.6em;max-width:40rem}
+
+/* productos */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px}
+.card{display:grid;gap:8px;align-content:start}
+.card .ph{all:unset;cursor:zoom-in;aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:var(--surface);position:relative;display:block}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.card .ph:hover img{transform:scale(1.04)}
+.badge{position:absolute;top:8px;left:8px;background:var(--fg);color:var(--bg);font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.06em}
+.card.out .ph img{filter:grayscale(.8);opacity:.7}
+.card h3{font-size:1.2rem;line-height:1.25}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.price{font-weight:700;font-variant-numeric:tabular-nums;font-size:1.05rem}
+.price small{font-weight:400;color:var(--muted)}
+.sizes{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.ask{font-size:.9rem;font-weight:700;color:var(--accent);text-decoration:none}
+.ask:hover{text-decoration:underline}
+.empty{color:var(--muted)}
+.custom{margin-top:32px;background:var(--surface);border-radius:8px;padding:22px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.custom p{margin:4px 0 0;color:var(--muted);max-width:36rem}
+
+/* visor */
+.viewer{position:fixed;inset:0;background:rgba(10,14,11,.92);display:grid;place-items:center;padding:20px;z-index:10}
+.viewer img{max-height:82vh;width:auto;border-radius:6px}
+.viewer p{color:#eef1e6;text-align:center;margin:12px 0 0}
+.viewer button{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:16px;background:none;border:0;color:#eef1e6;font-size:2rem;cursor:pointer}
+
+/* nosotros */
+.about{background:var(--surface)}
+.about .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px;align-items:center}
+.about p{max-width:36rem}
+.rivers{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.rivers li{background:var(--bg);padding:6px 12px;border-radius:999px;font-size:.9rem}
+
+/* contacto */
+.contact{background:var(--deep);color:var(--on-deep)}
+.contact .head p{color:inherit;opacity:.8}
+.rows{display:grid;gap:12px;max-width:34rem}
+.row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.15);padding-block:10px}
+.row b{font-weight:500;opacity:.7}
+footer{padding-block:24px;font-size:.85rem;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero canvas{display:none}.card .ph img{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <canvas id="river" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-text">
+      <div class="logo"><img src="img/logo.png" alt="Angol Flies, moscas a pedido"></div>
+      <span class="eyebrow">Moscas a pedido · Angol, Araucanía</span>
+      <h1>Moscas atadas a mano<br>para los ríos <span>del sur</span></h1>
+      <p>Secas, ninfas, emergentes y streamers hechas una a una en Angol, pensadas para truchas de los ríos de Malleco y la Araucanía.</p>
+      <div class="btns">
+        <a class="btn solid" href="#catalogo">Ver moscas</a>
+        <a class="btn" href="https://wa.me/56984035723" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+      </div>
+    </div>
+    <div class="hero-photo"><img src="img/mosca-11.jpg" alt="Cuatro moscas secas de alas grises y cuerpo naranja sobre espuma"></div>
+  </div>
+</header>
+
+<main>
+  <section id="catalogo">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">Catálogo</span>
+        <h2>Qué moscas hago</h2>
+        <p>Precios por unidad. Toca una foto para verla en grande y pide directo por WhatsApp.</p>
+      </div>
+      <div class="chips" id="chips" role="group" aria-label="Filtrar por tipo"></div>
+      <p class="cat-desc" id="catDesc"></p>
+      <div class="grid" id="grid"><p class="empty">Cargando moscas…</p></div>
+      <div class="custom">
+        <div>
+          <h3>Pedidos a medida</h3>
+          <p>Patrones, colores y tamaños según tu río o tu salida. Cajas armadas para regalo.</p>
+        </div>
+        <a class="btn solid" href="https://wa.me/56984035723?text=Hola%2C%20quiero%20hacer%20un%20pedido%20a%20medida" target="_blank" rel="noopener">Consultar</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Quiénes somos</span>
+        <h2 style="font-size:clamp(1.8rem,4.5vw,2.6rem);margin-block:8px 12px">Hechas en Angol</h2>
+        <p>Angol Flies Araucanía nace de la pesca en los ríos de la zona. Cada mosca se ata a mano con materiales seleccionados y se prueba en el agua antes de llegar a tu caja.</p>
+      </div>
+      <ul class="rivers" aria-label="Ríos de la zona">
+        <li>Río Malleco</li><li>Río Rehue</li><li>Río Vergara</li><li>Río Biobío</li><li>Cordillera de Nahuelbuta</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="contact" id="contacto">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">Contacto</span>
+        <h2>Haz tu pedido</h2>
+        <p>Envíos a todo Chile y retiro en Angol.</p>
+      </div>
+      <div class="rows">
+        <div class="row"><b>WhatsApp</b><a href="https://wa.me/56984035723" target="_blank" rel="noopener">+56 9 8403 5723</a></div>
+        <div class="row"><b>Instagram</b><a href="https://instagram.com/angolfliesaraucania" target="_blank" rel="noopener">@angolfliesaraucania</a></div>
+        <div class="row"><b>Ubicación</b><span>Angol, Araucanía</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>Angol Flies · Moscas a pedido · +56 9 8403 5723</footer>
+
+<div class="viewer" id="viewer" hidden>
+  <button id="close" aria-label="Cerrar">×</button>
+  <figure style="margin:0"><img id="vimg" src="" alt=""><p id="vcap"></p></figure>
+</div>
+
+<script>
+(()=>{
+const WA='56984035723';
+const fmt=n=>new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(n);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const grid=document.getElementById('grid'),chips=document.getElementById('chips'),desc=document.getElementById('catDesc');
+let data={categorias:[],moscas:[]},filtro='todas';
+
+function render(){
+  const cats=[{id:'todas',nombre:'Todas'},...data.categorias];
+  chips.innerHTML=cats.map(c=>`<button type="button" data-cat="${esc(c.id)}" aria-pressed="${c.id===filtro}">${esc(c.nombre)}</button>`).join('');
+  const cat=data.categorias.find(c=>c.id===filtro);
+  desc.textContent=cat?cat.descripcion||'':'Todas las moscas disponibles en este momento.';
+  const lista=data.moscas.filter(m=>filtro==='todas'||m.categoria===filtro);
+  if(!lista.length){grid.innerHTML='<p class="empty">No hay moscas en esta categoría por ahora.</p>';return}
+  grid.innerHTML=lista.map(m=>{
+    const msg=encodeURIComponent(`Hola, me interesa la mosca "${m.nombre}"`);
+    const precio=m.precio?`${fmt(m.precio)} <small>c/u</small>`:'Consultar precio';
+    return `<article class="card${m.disponible===false?' out':''}">
+      <button class="ph" type="button" data-src="${esc(m.foto)}" data-cap="${esc(m.nombre)}">
+        ${m.foto?`<img src="${esc(m.foto)}" alt="${esc(m.nombre)}" loading="lazy">`:''}
+        ${m.disponible===false?'<span class="badge">Agotada</span>':''}
+      </button>
+      <h3>${esc(m.nombre)}</h3>
+      <div class="meta"><span class="price">${precio}</span>${m.tallas?`<span class="sizes">${esc(m.tallas)}</span>`:''}</div>
+      <a class="ask" href="https://wa.me/${WA}?text=${msg}" target="_blank" rel="noopener">Pedir por WhatsApp →</a>
+    </article>`}).join('');
+}
+chips.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;filtro=b.dataset.cat;render()});
+
+fetch('data/moscas.json?v='+Date.now()).then(r=>{if(!r.ok)throw 0;return r.json()})
+  .then(d=>{data=d;render()})
+  .catch(()=>{grid.innerHTML='<p class="empty">No se pudo cargar el catálogo. Escríbenos por WhatsApp para ver las moscas disponibles.</p>'});
+
+const v=document.getElementById('viewer'),vi=document.getElementById('vimg'),vc=document.getElementById('vcap');
+grid.addEventListener('click',e=>{const b=e.target.closest('.ph');if(!b||!b.dataset.src)return;vi.src=b.dataset.src;vi.alt=b.dataset.cap;vc.textContent=b.dataset.cap;v.hidden=false});
+const close=()=>{v.hidden=true};document.getElementById('close').onclick=close;
+v.addEventListener('click',e=>{if(e.target===v)close()});addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+})();
+(()=>{const c=document.getElementById('river');if(!c||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+const x=c.getContext('2d');let w,h,t=0;
+function size(){w=c.width=c.offsetWidth;h=c.height=c.offsetHeight}size();addEventListener('resize',size);
+(function draw(){x.clearRect(0,0,w,h);x.strokeStyle='rgba(217,169,62,.5)';x.lineWidth=1;
+for(let i=0;i<14;i++){x.beginPath();const y0=h*(i+1)/15;
+for(let px=0;px<=w;px+=8){const y=y0+Math.sin(px/90+t+i)*6+Math.sin(px/37-t*1.3)*2;px?x.lineTo(px,y):x.moveTo(px,y)}x.stroke()}
+t+=.008;requestAnimationFrame(draw)})()})();
+</script>
+</body>
+</html>
